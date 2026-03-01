@@ -866,8 +866,7 @@
       input.value = '';
     });
 
-    // Auto-focus terminal input on page load
-    input.focus();
+    input.addEventListener('click', () => input.focus());
 
   </script>
 </body>
