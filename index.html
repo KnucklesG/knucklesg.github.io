@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knuckles Glass — Borosilicate Art, Pacific Northwest</title>
+  <meta name="description" content="Borosilicate glass art from the Pacific Northwest. Shop, projects, blueprints and more.">
+
+  <!-- ── FONTS
+       Share Tech Mono : console/technical headings
+       Crimson Pro     : body text, italic accents
+       To swap fonts later, change the Google Fonts URL and the font-family vars below -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <!-- ── SHARED STYLES
+       All site-wide variables and base styles live here.
+       Branch pages will link to style.css instead of repeating this block. -->
+  <style>
+
+    /* ════════════════════════════════════════════
+       DESIGN TOKENS — change colors/fonts here only
+       ════════════════════════════════════════════ */
+    :root {
+      --bg:         #0d0f0b;   /* main background */
+      --bg2:        #111410;   /* card/panel background */
+      --bg3:        #080a07;   /* terminal background */
+      --green:      #4aff91;   /* primary accent — phosphor green */
+      --green-dim:  #1f6640;   /* muted green for borders */
+      --blue:       #7ecfcf;   /* category tag color */
+      --earth1:     #a08060;   /* warm earth accent */
+      --earth2:     #6b5040;   /* muted earth for borders */
+      --text:       #c8d4c0;   /* primary text */
+      --muted:      #4a5445;   /* secondary/faded text */
+      --grid:       rgba(74, 255, 145, 0.04); /* blueprint grid opacity */
+      --font-mono:  'Share Tech Mono', monospace;
+      --font-serif: 'Crimson Pro', Georgia, serif;
+      --max-width:  1000px;
+    }
+
+    /* ════════════════════════════════════════════
+       RESET & BASE
+       ════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-serif);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    /* ── Blueprint grid overlay (fixed, decorative) */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── CRT scanline overlay (fixed, decorative) */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Page content sits above overlays */
+    .wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* ════════════════════════════════════════════
+       NAVIGATION
+       To add a page: copy one <a> tag and update href + label
+       Shop link always stays first after the logo
+       ════════════════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,15,11,0.95);
+      border-bottom: 1px solid var(--green-dim);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    /* Site logo/name in nav */
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--green);
+      text-decoration: none;
+      padding: 1rem 1.5rem 1rem 0;
+      border-right: 1px solid var(--green-dim);
+      margin-right: 0.5rem;
+      white-space: nowrap;
+      text-shadow: 0 0 12px rgba(74,255,145,0.4);
+      flex-shrink: 0;
+    }
+
+    /* Standard nav links */
+    nav a {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 1rem 1rem;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--green); }
+
+    /* Shop link — highlighted, always visible priority */
+    nav a.shop {
+      color: var(--green);
+      border: 1px solid var(--green-dim);
+      margin-left: 0.5rem;
+      padding: 0.4rem 1rem;
+      margin-top: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    nav a.shop:hover { background: rgba(74,255,145,0.08); }
+
+    /* ════════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════════ */
+    header {
+      border-left: 2px solid var(--green);
+      padding-left: 1.5rem;
+      margin-bottom: 3rem;
+      animation: fadeIn 0.8s ease both;
+    }
+
+    /* Small system info line above the logo */
+    .sys-line {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--green-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .sys-line span { color: var(--green); }
+
+    h1 {
+      font-family: var(--font-mono);
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      color: var(--green);
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(74,255,145,0.25);
+    }
+
+    /* ── TAGLINE: edit this text in the HTML below */
+    .tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--earth1);
+      margin-top: 0.5rem;
+      font-weight: 300;
+    }
+
+    /* ── PRIMARY CTA BUTTON
+         Links to Big Cartel store — update href if store URL changes */
+    .hero-cta {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--bg);
+      background: var(--green);
+      padding: 0.75rem 2rem;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .hero-cta:hover {
+      box-shadow: 0 0 30px rgba(74,255,145,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ════════════════════════════════════════════
+       SECTION DIVIDERS
+       ════════════════════════════════════════════ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--green-dim), transparent);
+    }
+
+    /* ════════════════════════════════════════════
+       SHOP GALLERY
+       Loads live from Big Cartel API automatically.
+       ── TO CHANGE STORE: update BIGCARTEL_USERNAME below in JS
+       ── Images are square thumbnails, no prices shown here
+       ════════════════════════════════════════════ */
+
+    /* Pulsing instruction text above gallery */
+    .shop-note {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.08em;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    /* Responsive image grid — auto-fills available width */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      background: var(--bg2);
+      border: 1px solid var(--green-dim);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+    .gallery-item:hover {
+      border-color: var(--green);
+      transform: scale(1.03);
+      z-index: 2;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.8) brightness(0.9);
+      transition: filter 0.3s;
+    }
+    .gallery-item:hover img { filter: saturate(1.1) brightness(1.05); }
+
+    /* Shown while loading or if no image available */
+    .gallery-item.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item.placeholder span {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    /* "See all listings" link below gallery */
+    .shop-cta-row { text-align: center; }
+    .shop-cta-row a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid var(--green-dim);
+      padding: 0.6rem 2rem;
+      display: inline-block;
+      letter-spacing: 0.1em;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .shop-cta-row a:hover {
+      background: rgba(74,255,145,0.07);
+      box-shadow: 0 0 20px rgba(74,255,145,0.1);
+    }
+
+    /* ════════════════════════════════════════════
+       PROJECT CARDS
+       ── TO ADD A CARD: copy a .card block in HTML,
+          update data-index, card-tag, h3, p, and href
+       ── Earth-tone variant: add class="card earth"
+       ════════════════════════════════════════════ */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--green-dim);
+      padding: 1.5rem;
+      position: relative;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.3s, transform 0.3s;
+      animation: fadeIn 0.6s both;
+    }
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+
+    /* Index badge top-right corner */
+    .card::before {
+      content: attr(data-index);
+      position: absolute;
+      top: -1px; right: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--green);
+      background: var(--bg2);
+      padding: 0 0.4rem;
+      border: 1px solid var(--green-dim);
+      border-top: none;
+    }
+
+    .card:hover { border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(74,255,145,0.07); }
+
+    /* Earth-tone card variant (personal/collab projects) */
+    .card.earth { border-color: var(--earth2); }
+    .card.earth::before { color: var(--earth1); border-color: var(--earth2); }
+    .card.earth:hover { border-color: var(--earth1); box-shadow: 0 8px 30px rgba(160,128,96,0.08); }
+    .card.earth .card-accent { background: var(--earth1); box-shadow: 0 0 8px var(--earth1); }
+
+    .card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--blue);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+    .card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Glowing dot bottom-right of each card */
+    .card-accent {
+      position: absolute;
+      bottom: 1rem; right: 1rem;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      opacity: 0.5;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    /* ════════════════════════════════════════════
+       INTERACTIVE TERMINAL
+       ── TO ADD A COMMAND: add a new key to the
+          `commands` object in the <script> below
+       ── Commands are plain text/HTML strings
+       ════════════════════════════════════════════ */
+    .terminal {
+      background: var(--bg3);
+      border: 1px solid var(--green-dim);
+      margin-bottom: 3rem;
+      animation: fadeIn 0.6s 0.6s both;
+    }
+
+    .term-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--green-dim);
+      background: rgba(74,255,145,0.03);
+    }
+    .term-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .term-title {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-left: 0.25rem;
+    }
+
+    .term-body {
+      padding: 1.25rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.9;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    /* Terminal output color classes */
+    .t-dim   { color: var(--green-dim); }
+    .t-green { color: var(--green); }
+    .t-blue  { color: var(--blue); }
+    .t-earth { color: var(--earth1); }
+    .t-text  { color: var(--text); }
+    .t-muted { color: var(--muted); }
+
+    .term-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .prompt { color: var(--green); }
+
+    #term-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      flex: 1;
+      caret-color: var(--green);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--green);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    /* ════════════════════════════════════════════
+       INSTAGRAM NUDGE BAR
+       ── TO UPDATE: change the text in .ig-text
+          and the href on .ig-link in the HTML below
+       ════════════════════════════════════════════ */
+    .ig-nudge {
+      border: 1px solid var(--earth2);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      animation: fadeIn 0.6s 0.8s both;
+    }
+    .ig-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--earth1);
+      box-shadow: 0 0 10px var(--earth1);
+      animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .ig-text {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--earth1);
+      letter-spacing: 0.08em;
+      flex: 1;
+    }
+    .ig-link {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--earth1);
+      text-decoration: none;
+      border: 1px solid var(--earth2);
+      padding: 0.4rem 1rem;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .ig-link:hover { background: rgba(160,128,96,0.1); }
+
+    /* ════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--muted);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .mono span { color: var(--green); }
+
+    /* ════════════════════════════════════════════
+       ANIMATIONS
+       ════════════════════════════════════════════ */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════
+       NAVIGATION
+       ── To add a page: copy an <a> tag, update href and label
+       ── Keep SHOP first after the logo — sales priority
+       ════════════════════════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html">Puffco Blueprints</a>
+      <a href="wood-boxes.html">Wood Boxes</a>
+      <a href="dfo-or-bust.html">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+
+    <!-- ════════════════════════════════════════════
+         HERO
+         ── Edit tagline text here freely
+         ── hero-cta href should always point to Big Cartel store
+         ════════════════════════════════════════════ -->
+    <header>
+      <div class="sys-line">SYS: <span>knucklesglass.com</span> // PACIFIC NORTHWEST // BOROSILICATE GLASS ART</div>
+      <h1>KNUCKLES</h1>
+      <div class="tagline">Glass. Fire. Code. Wood. — a curious maker's workshop.</div>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="hero-cta">→ VISIT THE SHOP</a>
+    </header>
+
+    <!-- ════════════════════════════════════════════
+         SHOP GALLERY
+         Live product images pulled from Big Cartel.
+         ── Max items shown controlled by SHOP_MAX_ITEMS in JS below
+         ── Clicking any image opens the product page
+         ════════════════════════════════════════════ -->
+    <div id="shop">
+      <div class="divider">// AVAILABLE NOW //</div>
+      <div class="shop-note">↓ Click any piece to see pricing &amp; availability ↓</div>
+      <div class="gallery-grid" id="gallery">
+        <!-- JS populates this — placeholders shown while loading -->
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+        <div class="gallery-item placeholder"><span>LOADING...</span></div>
+      </div>
+      <div class="shop-cta-row">
+        <a href="https://knucklesglass.bigcartel.com/" target="_blank">→ SEE ALL LISTINGS, PRICES &amp; AVAILABILITY ←</a>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         PROJECT CARDS
+         ── Green cards  = technical/informative projects
+         ── Earth cards  = personal/collab projects
+         ── data-index   = corner badge label
+         ── href         = branch page filename
+         ════════════════════════════════════════════ -->
+    <div id="projects">
+      <div class="divider">// PROJECT NODES //</div>
+      <div class="cards">
+
+        <!-- GREEN CARDS — informative/technical -->
+        <a href="glass-art.html" class="card" data-index="01">
+          <div class="card-tag">[ ART ]</div>
+          <h3>Glass Art</h3>
+          <p>Borosilicate work from the torch. Functional art forged in fire.</p>
+          <div class="card-accent"></div>
+        </a>
+
+        <a href="glass-lathe.html" class="card" data-index="02">
+          <div class="card-tag">[ ENGINEERING ]</div>
+          <h3>Glass Lathe</h3>
+          <p>Designing and building a custom glassblowing lathe from scratch.</p>
+          <div class="card-accent"></div>
+        </a>
+
+        <a href="kiln-connect.html" class="card" data-index="03">
+          <div class="card-tag">[ OPEN SOURCE ]</div>
+          <h3>Kiln Connect</h3>
+          <p>Monitors kiln and shop conditions. Open source files available.</p>
+          <div class="card-accent"></div>
+        </a>
+
+        <a href="puffco-blueprints.html" class="card" data-index="04">
+          <div class="card-tag">[ TECHNICAL ]</div>
+          <h3>Puffco Blueprints</h3>
+          <p>Detailed technical blueprints for Puffco builds.</p>
+          <div class="card-accent"></div>
+        </a>
+
+        <!-- EARTH CARDS — personal/collab -->
+        <a href="wood-boxes.html" class="card earth" data-index="05">
+          <div class="card-tag">[ COLLAB ]</div>
+          <h3>Wood Boxes</h3>
+          <p>Scan-fit stash boxes by a master craftsman. Art meets precision.</p>
+          <div class="card-accent"></div>
+        </a>
+
+        <a href="dfo-or-bust.html" class="card earth" data-index="06">
+          <div class="card-tag">[ GAME ]</div>
+          <h3>DFO or Bust</h3>
+          <p>A Gameboy glassblowing simulator. Made for the Degenerate Flame Off.</p>
+          <div class="card-accent"></div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         INTERACTIVE TERMINAL
+         ── To add a command: add a key to the commands
+            object in the script below. Value is an HTML string.
+         ── Use CSS classes: t-green, t-blue, t-earth, t-muted
+         ════════════════════════════════════════════ -->
+    <div class="divider">// WORKSHOP TERMINAL //</div>
+    <div class="terminal">
+      <div class="term-titlebar">
+        <div class="term-dot"></div>
+        <div class="term-dot"></div>
+        <div class="term-dot"></div>
+        <span class="term-title">knuckles@workshop:~ — type 'help' to get started</span>
+      </div>
+      <div class="term-body">
+        <div id="term-log">
+          <div><span class="t-green">KNUCKLES GLASS WORKSHOP v1.0</span></div>
+          <div><span class="t-earth">Type a command. Try: help, shop, status, lathe, kiln, dfo, contact</span></div>
+          <br>
+        </div>
+        <div class="term-input-row">
+          <span class="prompt">knuckles@workshop:~$</span>
+          <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="_">
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         INSTAGRAM NUDGE
+         ── Update .ig-text when you make a new post
+         ── Update .ig-link href to your latest post URL
+            or leave as profile URL for simplicity
+         ════════════════════════════════════════════ -->
+    <div class="ig-nudge">
+      <div class="ig-dot"></div>
+      <div class="ig-text">NEW POST on Instagram — fresh work just dropped.</div>
+      <a href="https://www.instagram.com/knucklesglass/" target="_blank" class="ig-link">→ SEE IT HERE</a>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         FOOTER
+         ── Update email here if it changes
+         ════════════════════════════════════════════ -->
+    <footer id="contact">
+      <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+      <div class="mono">ContactKnuckles@gmail.com</div>
+    </footer>
+
+  </div><!-- end .wrapper -->
+
+  <script>
+    // ════════════════════════════════════════════
+    // BIG CARTEL SHOP LOADER
+    // ── BIGCARTEL_USERNAME: update if store URL changes
+    // ── SHOP_MAX_ITEMS: max thumbnails shown on homepage
+    // ── Only shows products with status 'active'
+    // ════════════════════════════════════════════
+    const BIGCARTEL_USERNAME = 'knucklesglass';
+    const SHOP_MAX_ITEMS = 8;
+
+    async function loadShop() {
+      const gallery = document.getElementById('gallery');
+      try {
+        const res = await fetch(`https://api.bigcartel.com/${BIGCARTEL_USERNAME}/products.json`);
+        if (!res.ok) throw new Error('API error');
+        const products = await res.json();
+        const available = products
+          .filter(p => p.status === 'active')
+          .slice(0, SHOP_MAX_ITEMS);
+
+        if (available.length === 0) throw new Error('No active products');
+
+        gallery.innerHTML = available.map(p => {
+          const img = p.images && p.images[0] ? p.images[0].url : null;
+          const url = `https://knucklesglass.bigcartel.com/product/${p.permalink}`;
+          if (img) {
+            return `<a href="${url}" target="_blank" class="gallery-item">
+              <img src="${img}" alt="${p.name}" loading="lazy">
+            </a>`;
+          }
+          // Fallback if product has no image
+          return `<a href="${url}" target="_blank" class="gallery-item placeholder">
+            <span>${p.name}</span>
+          </a>`;
+        }).join('');
+
+      } catch(e) {
+        // Graceful fallback if API unreachable
+        gallery.innerHTML = `
+          <div class="gallery-item placeholder" style="grid-column:1/-1;aspect-ratio:auto;padding:2rem;text-align:center;">
+            <span style="font-size:0.7rem;color:var(--muted);">
+              SHOP UNAVAILABLE — 
+              <a href="https://knucklesglass.bigcartel.com/" target="_blank" style="color:var(--green);">VISIT DIRECTLY →</a>
+            </span>
+          </div>`;
+      }
+    }
+
+    loadShop();
+
+    // ════════════════════════════════════════════
+    // INTERACTIVE TERMINAL
+    // ── TO ADD A COMMAND: add a new entry below
+    //    Format:  commandname: () => `html string`
+    // ── Use CSS classes for color:
+    //    t-green, t-blue, t-earth, t-muted, t-text
+    // ── Special return '__clear__' clears the screen
+    // ── Window.open() can be used to navigate to pages
+    // ════════════════════════════════════════════
+    const commands = {
+
+      help: () => `<span class="t-blue">AVAILABLE COMMANDS:</span><br>
+        &nbsp;&nbsp;<span class="t-green">shop</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— open the Big Cartel store<br>
+        &nbsp;&nbsp;<span class="t-green">status</span> &nbsp;&nbsp;&nbsp;— current project status<br>
+        &nbsp;&nbsp;<span class="t-green">lathe</span> &nbsp;&nbsp;&nbsp;&nbsp;— about the glass lathe build<br>
+        &nbsp;&nbsp;<span class="t-green">kiln</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— about Kiln Connect<br>
+        &nbsp;&nbsp;<span class="t-green">blueprints</span>— Puffco blueprint files<br>
+        &nbsp;&nbsp;<span class="t-green">dfo</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— about the Gameboy game<br>
+        &nbsp;&nbsp;<span class="t-green">contact</span> &nbsp;&nbsp;— get in touch<br>
+        &nbsp;&nbsp;<span class="t-green">clear</span> &nbsp;&nbsp;&nbsp;&nbsp;— clear terminal`,
+
+      shop: () => {
+        window.open('https://knucklesglass.bigcartel.com/', '_blank');
+        return `<span class="t-green">Opening shop...</span> → knucklesglass.bigcartel.com`;
+      },
+
+      // ── UPDATE STATUS VALUES HERE as projects progress
+      status: () => `<span class="t-blue">PROJECT STATUS:</span><br>
+        &nbsp;&nbsp;Glass Lathe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-earth">[IN PROGRESS]</span><br>
+        &nbsp;&nbsp;Kiln Connect &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-green">[ACTIVE — open source]</span><br>
+        &nbsp;&nbsp;Puffco Blueprints &nbsp;<span class="t-green">[AVAILABLE]</span><br>
+        &nbsp;&nbsp;BigCartel Shop &nbsp;&nbsp;&nbsp;<span class="t-green">[OPEN]</span><br>
+        &nbsp;&nbsp;DFO or Bust &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-green">[PLAYABLE]</span>`,
+
+      lathe: () => `<span class="t-blue">GLASS LATHE BUILD:</span><br>
+        Designing a custom glassblowing lathe from scratch.<br>
+        Filming the entire process — follow on Patreon for updates.<br>
+        <span class="t-earth">Status: in progress. Biggest project to date.</span><br>
+        <a href="glass-lathe.html" style="color:var(--green)">→ Full build log</a>`,
+
+      kiln: () => `<span class="t-blue">KILN CONNECT:</span><br>
+        Monitors kiln and shop conditions, uploads to a local server.<br>
+        Open source — files available on request.<br>
+        <a href="kiln-connect.html" style="color:var(--green)">→ See the project page</a>`,
+
+      blueprints: () => `<span class="t-blue">PUFFCO BLUEPRINTS:</span><br>
+        Detailed technical reference blueprints for Puffco builds.<br>
+        <a href="puffco-blueprints.html" style="color:var(--green)">→ View blueprints</a>`,
+
+      dfo: () => `<span class="t-blue">DFO OR BUST:</span><br>
+        A real Gameboy game. Built for the Degenerate Flame Off, 2015.<br>
+        You play as a glassblower. Make headys. Get to the DFO.<br>
+        <a href="https://knucklesglass.itch.io/dfo" target="_blank" style="color:var(--green)">→ Play on itch.io</a>`,
+
+      contact: () => `<span class="t-blue">CONTACT:</span><br>
+        Email: <span class="t-green">ContactKnuckles@gmail.com</span><br>
+        Instagram: <a href="https://www.instagram.com/knucklesglass/" target="_blank" style="color:var(--green)">@knucklesglass</a>`,
+
+      // ── SECRET EASTER EGGS (not listed in help)
+      whoami: () => `<span class="t-green">knuckles</span> — glassblower, maker, coder, PNW.`,
+      ls:     () => `<span class="t-muted">glass-art/&nbsp; glass-lathe/&nbsp; kiln-connect/&nbsp; wood-boxes/&nbsp; dfo/&nbsp; blueprints/</span>`,
+      fire:   () => `<span class="t-earth">🔥 torch is lit.</span>`,
+      sudo:   () => `<span class="t-muted">nice try.</span>`,
+
+      clear: () => '__clear__',
+    };
+
+    const log    = document.getElementById('term-log');
+    const input  = document.getElementById('term-input');
+
+    // Appends a new line to terminal output
+    function appendLine(html) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      log.appendChild(div);
+      log.parentElement.scrollTop = log.parentElement.scrollHeight;
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const val = input.value.trim().toLowerCase();
+      if (!val) return;
+
+      // Echo the command back
+      appendLine(`<span class="prompt">knuckles@workshop:~$</span> <span class="t-text">${val}</span>`);
+
+      const handler = commands[val];
+      if (handler) {
+        const result = handler();
+        if (result === '__clear__') {
+          log.innerHTML = '';
+        } else {
+          appendLine(`<div style="margin-left:1rem;margin-bottom:0.5rem;">${result}</div>`);
+        }
+      } else {
+        // Unknown command response
+        appendLine(`<span class="t-muted">command not found: ${val} — try 'help'</span>`);
+      }
+
+      input.value = '';
+    });
+
+    // Auto-focus terminal input on page load
+    input.focus();
+
+  </script>
+</body>
+</html>

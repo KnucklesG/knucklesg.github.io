@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── PAGE TITLE: update for each branch page
+       Format: "Page Name — Knuckles Glass" -->
+  <title>PAGE NAME — Knuckles Glass</title>
+  <meta name="description" content="Short description for search engines. Update per page.">
+
+  <!-- Shared fonts — same as homepage -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+  <!-- Shared site styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ── PAGE-SPECIFIC STYLES
+       Only add styles here that are unique to this page.
+       Anything reusable should go in style.css instead. -->
+  <style>
+
+    /* ── HERO — branch page version
+       Smaller than homepage, includes back link and status badge */
+    .branch-hero {
+      border-left: 2px solid var(--green);
+      padding-left: 1.5rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 0.8s ease both;
+    }
+
+    /* ── INTRO BLOCK
+       Fixed top section — project description, media, links.
+       This section rarely changes after initial setup. */
+    .intro-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 0.6s 0.2s both;
+    }
+
+    @media (max-width: 680px) {
+      .intro-block { grid-template-columns: 1fr; }
+    }
+
+    .intro-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .intro-text p:last-child { margin-bottom: 0; }
+
+    .intro-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    /* ── MEDIA PANEL
+       Right side of intro — image or embedded video.
+       For video: replace <img> with an <iframe> embed. */
+    .intro-media {
+      background: var(--bg2);
+      border: 1px solid var(--green-dim);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      position: relative;
+    }
+
+    .intro-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85);
+    }
+
+    /* Placeholder shown when no media is set */
+    .intro-media .media-placeholder {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* Embedded video (YouTube/Vimeo iframe) */
+    .intro-media iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      border: none;
+    }
+
+    /* ── UPDATE LOG
+       Chronological entries loaded from markdown files.
+       Each .update-entry is one post. */
+    .update-log {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .update-entry {
+      border: 1px solid var(--green-dim);
+      border-bottom: none;
+      padding: 1.5rem;
+      background: var(--bg2);
+      position: relative;
+      animation: fadeIn 0.5s both;
+    }
+
+    /* Last entry restores bottom border */
+    .update-entry:last-child {
+      border-bottom: 1px solid var(--green-dim);
+    }
+
+    /* Connecting timeline line on left edge */
+    .update-entry::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--green-dim);
+    }
+
+    .update-entry:hover::before {
+      background: var(--green);
+    }
+
+    .update-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .update-date {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+    }
+
+    .update-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .update-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--blue);
+      letter-spacing: 0.12em;
+      margin-left: auto;
+    }
+
+    .update-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .update-body p { margin-bottom: 0.75rem; }
+    .update-body p:last-child { margin-bottom: 0; }
+
+    /* Image inside an update entry */
+    .update-body img {
+      margin-top: 1rem;
+      border: 1px solid var(--green-dim);
+      max-height: 400px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    /* Stagger animation for update entries */
+    .update-entry:nth-child(1) { animation-delay: 0.1s; }
+    .update-entry:nth-child(2) { animation-delay: 0.2s; }
+    .update-entry:nth-child(3) { animation-delay: 0.3s; }
+    .update-entry:nth-child(4) { animation-delay: 0.4s; }
+    .update-entry:nth-child(5) { animation-delay: 0.5s; }
+
+    /* Empty state — shown when no updates loaded yet */
+    .update-empty {
+      border: 1px solid var(--green-dim);
+      padding: 2rem;
+      text-align: center;
+      background: var(--bg2);
+    }
+
+    .update-empty span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════
+       NAVIGATION
+       ── Add class="active" to the current page's link
+       ── Example: <a href="glass-lathe.html" class="active">
+       ════════════════════════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html">Puffco Blueprints</a>
+      <a href="wood-boxes.html">Wood Boxes</a>
+      <a href="dfo-or-bust.html">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+
+    <!-- ════════════════════════════════════════════
+         BACK LINK
+         ── Always links back to homepage
+         ════════════════════════════════════════════ -->
+    <a href="index.html" class="back-link">← BACK TO WORKSHOP</a>
+
+    <!-- ════════════════════════════════════════════
+         BRANCH HERO
+         ── Update: sys-line tag, page-title, tagline,
+            status-badge class (active / wip / done)
+            and status text
+         ════════════════════════════════════════════ -->
+    <div class="branch-hero">
+      <div class="sys-line">
+        SYS: <span>knucklesglass.com</span> // MODULE: <span>PAGE-NAME</span>
+      </div>
+      <h1 class="page-title">PAGE NAME</h1>
+      <div class="tagline">Short evocative description of this project.</div>
+
+      <!-- ── STATUS BADGE
+           Classes: active (●), wip (◐), done (○)
+           Add .earth for earth-tone color variant -->
+      <span class="status-badge wip">IN PROGRESS</span>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         INTRO BLOCK
+         Left: description text + action links
+         Right: hero image or embedded video
+         ──
+         ── TO EMBED A VIDEO: replace the <img> inside
+            .intro-media with an <iframe> from YouTube:
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID"
+              allowfullscreen></iframe>
+         ════════════════════════════════════════════ -->
+    <div class="divider">// ABOUT THIS PROJECT //</div>
+
+    <div class="intro-block">
+      <div class="intro-text">
+        <!-- ── Edit project description here freely ── -->
+        <p>
+          Write a clear description of this project here.
+          What is it, why does it exist, what makes it interesting?
+        </p>
+        <p>
+          Second paragraph — more technical detail, background,
+          or context about the project.
+        </p>
+
+        <!-- ── Action links — add/remove as needed ── -->
+        <div class="intro-links">
+          <a href="#" class="btn btn-primary">→ PRIMARY ACTION</a>
+          <a href="#" class="btn btn-outline">→ SECONDARY LINK</a>
+        </div>
+      </div>
+
+      <div class="intro-media">
+        <!-- ── Replace src with actual project image ── -->
+        <!-- <img src="images/page-name-hero.jpg" alt="Project name"> -->
+
+        <!-- Shown until image is added -->
+        <div class="media-placeholder">
+          [ PROJECT IMAGE OR VIDEO ]<br>
+          Add image to /images/ folder<br>
+          and update src above
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         UPDATE LOG
+         Entries are loaded from /updates/page-name/
+         markdown files by the script below.
+         ──
+         ── TO ADD AN UPDATE: create a new .md file in
+            the correct /updates/ subfolder.
+            See README.md for file format.
+         ── Entries display newest-first automatically.
+         ════════════════════════════════════════════ -->
+    <div class="divider">// PROJECT LOG //</div>
+
+    <!-- Loading state shown while fetching updates -->
+    <div id="update-loading" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:1rem;">
+      LOADING LOG...
+    </div>
+
+    <div class="update-log" id="update-log">
+      <!-- JS populates this from markdown files -->
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         FOOTER
+         ── Identical across all pages — do not edit
+            per page. Update in style.css or here once.
+         ════════════════════════════════════════════ -->
+    <div style="margin-top:3rem;">
+      <footer>
+        <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+        <div class="mono">ContactKnuckles@gmail.com</div>
+      </footer>
+    </div>
+
+  </div><!-- end .wrapper -->
+
+  <script>
+    // ════════════════════════════════════════════
+    // MARKDOWN UPDATE LOG LOADER
+    //
+    // HOW IT WORKS:
+    // 1. Reads updates/INDEX_FILE (a text file listing
+    //    all update filenames for this page)
+    // 2. Fetches each .md file in that list
+    // 3. Parses frontmatter (date, title, tag)
+    // 4. Renders entries newest-first
+    //
+    // ── UPDATE_FOLDER: path to this page's updates
+    //    Change this value when copying template to
+    //    a new page. Must match actual folder name.
+    //
+    // ── INDEX_FILE: plain text file listing all .md
+    //    filenames, one per line. You maintain this.
+    //    Example contents of index.txt:
+    //      2026-03-01-headstock-done.md
+    //      2026-02-15-motor-mount.md
+    // ════════════════════════════════════════════
+    const UPDATE_FOLDER = 'updates/PAGE-NAME/'; // ← CHANGE THIS per page
+    const INDEX_FILE    = UPDATE_FOLDER + 'index.txt';
+
+    // ── Parses markdown frontmatter block
+    // Frontmatter format:
+    //   ---
+    //   date: 2026-03-01
+    //   title: Update title here
+    //   tag: BUILD LOG
+    //   ---
+    //   Body text goes here. Plain text or simple markdown.
+    function parseFrontmatter(raw) {
+      const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+      if (!fmMatch) return { meta: {}, body: raw };
+
+      const meta = {};
+      fmMatch[1].split('\n').forEach(line => {
+        const [key, ...rest] = line.split(':');
+        if (key) meta[key.trim()] = rest.join(':').trim();
+      });
+
+      return { meta, body: fmMatch[2].trim() };
+    }
+
+    // ── Converts basic markdown to HTML
+    // Supports: **bold**, *italic*, ![alt](src), [text](url),
+    //           blank lines as paragraph breaks
+    function simpleMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g,     '<em>$1</em>')
+        .replace(/!\[(.*?)\]\((.*?)\)/g,
+          '<img src="$2" alt="$1" loading="lazy">')
+        .replace(/\[(.*?)\]\((.*?)\)/g,
+          '<a href="$2" style="color:var(--green)">$1</a>')
+        .split(/\n\n+/)
+        .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    // ── Renders a single update entry to HTML
+    function renderEntry(meta, body, index) {
+      const date  = meta.date  || 'UNDATED';
+      const title = meta.title || 'UNTITLED';
+      const tag   = meta.tag   || '';
+
+      return `
+        <div class="update-entry" style="animation-delay:${index * 0.1}s">
+          <div class="update-meta">
+            <span class="update-date">${date}</span>
+            <span class="update-title">${title}</span>
+            ${tag ? `<span class="update-tag">[ ${tag} ]</span>` : ''}
+          </div>
+          <div class="update-body">${simpleMarkdown(body)}</div>
+        </div>`;
+    }
+
+    // ── Main loader — fetches index then each update file
+    async function loadUpdates() {
+      const logEl     = document.getElementById('update-log');
+      const loadingEl = document.getElementById('update-loading');
+
+      try {
+        // Fetch the index file listing all update filenames
+        const indexRes = await fetch(INDEX_FILE);
+        if (!indexRes.ok) throw new Error('No index found');
+
+        const indexText = await indexRes.text();
+        const filenames = indexText
+          .split('\n')
+          .map(f => f.trim())
+          .filter(f => f.endsWith('.md'));
+
+        if (filenames.length === 0) throw new Error('No entries');
+
+        // Fetch all update files in parallel
+        const results = await Promise.all(
+          filenames.map(async (filename) => {
+            try {
+              const res = await fetch(UPDATE_FOLDER + filename);
+              if (!res.ok) return null;
+              return await res.text();
+            } catch { return null; }
+          })
+        );
+
+        // Parse and render — newest first (index.txt should be newest-first)
+        const html = results
+          .filter(Boolean)
+          .map((raw, i) => {
+            const { meta, body } = parseFrontmatter(raw);
+            return renderEntry(meta, body, i);
+          })
+          .join('');
+
+        loadingEl.style.display = 'none';
+        logEl.innerHTML = html || emptyState();
+
+      } catch(e) {
+        // No updates yet or folder missing
+        loadingEl.style.display = 'none';
+        logEl.innerHTML = emptyState();
+      }
+    }
+
+    function emptyState() {
+      return `<div class="update-empty">
+        <span>NO LOG ENTRIES YET — check back soon.</span>
+      </div>`;
+    }
+
+    loadUpdates();
+  </script>
+
+</body>
+</html>

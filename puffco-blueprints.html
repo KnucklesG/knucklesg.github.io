@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puffco Blueprints — Knuckles Glass</title>
+  <meta name="description" content="Detailed technical blueprints for Puffco builds. Downloadable reference documents from Knuckles Glass.">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .branch-hero { border-left: 2px solid var(--green); padding-left: 1.5rem; margin-bottom: 2.5rem; animation: fadeIn 0.8s ease both; }
+    .intro-block { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; animation: fadeIn 0.6s 0.2s both; }
+    @media (max-width: 680px) { .intro-block { grid-template-columns: 1fr; } }
+    .intro-text p { font-size: 1.05rem; line-height: 1.8; color: var(--text); margin-bottom: 1rem; }
+    .intro-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+    .intro-media { background: var(--bg2); border: 1px solid var(--green-dim); overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 240px; }
+    .intro-media img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85); }
+    .media-placeholder { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-align: center; padding: 2rem; line-height: 2; }
+
+    /* ── BLUEPRINT DOWNLOAD CARDS
+       Each available blueprint gets its own card
+       TO ADD A BLUEPRINT: copy a .bp-card block,
+       update title, description, and download href ── */
+    .blueprint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 0.6s 0.3s both;
+    }
+
+    .bp-card {
+      background: var(--bg2);
+      border: 1px solid var(--green-dim);
+      padding: 1.5rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .bp-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(74,255,145,0.06); }
+
+    .bp-card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--blue);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+
+    .bp-card h3 {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .bp-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .bp-download {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid var(--green-dim);
+      padding: 0.35rem 0.85rem;
+      letter-spacing: 0.08em;
+      transition: background 0.2s;
+    }
+    .bp-download:hover { background: rgba(74,255,145,0.07); border-color: var(--green); }
+
+    /* ── UPDATE LOG ── */
+    .update-log { display: flex; flex-direction: column; }
+    .update-entry { border: 1px solid var(--green-dim); border-bottom: none; padding: 1.5rem; background: var(--bg2); position: relative; animation: fadeIn 0.5s both; }
+    .update-entry:last-child { border-bottom: 1px solid var(--green-dim); }
+    .update-entry::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--green-dim); transition: background 0.2s; }
+    .update-entry:hover::before { background: var(--green); }
+    .update-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .update-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--green); letter-spacing: 0.1em; }
+    .update-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); }
+    .update-tag { font-family: var(--font-mono); font-size: 0.6rem; color: var(--blue); letter-spacing: 0.12em; margin-left: auto; }
+    .update-body { font-size: 1rem; line-height: 1.75; color: var(--muted); }
+    .update-body p { margin-bottom: 0.75rem; }
+    .update-body strong { color: var(--text); }
+    .update-body img { margin-top: 1rem; border: 1px solid var(--green-dim); max-height: 420px; object-fit: cover; width: 100%; }
+    .update-body a { color: var(--green); text-decoration: none; border-bottom: 1px solid var(--green-dim); }
+    .update-empty { border: 1px solid var(--green-dim); padding: 2.5rem; text-align: center; background: var(--bg2); }
+    .update-empty span { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html" class="active">Puffco Blueprints</a>
+      <a href="wood-boxes.html">Wood Boxes</a>
+      <a href="dfo-or-bust.html">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+    <a href="index.html" class="back-link">← BACK TO WORKSHOP</a>
+
+    <div class="branch-hero">
+      <div class="sys-line">SYS: <span>knucklesglass.com</span> // MODULE: <span>PUFFCO-BLUEPRINTS</span></div>
+      <h1 class="page-title">PUFFCO BLUEPRINTS</h1>
+      <div class="tagline">Technical reference documents for Puffco builds.</div>
+      <span class="status-badge active">● AVAILABLE</span>
+    </div>
+
+    <div class="divider">// ABOUT //</div>
+
+    <div class="intro-block">
+      <div class="intro-text">
+        <p>
+          Detailed technical blueprints for Puffco builds —
+          dimensions, tolerances, and reference drawings developed
+          through hands-on work with the pieces.
+        </p>
+        <p>
+          These are practical working documents, not marketing materials.
+          Useful for glassblowers making custom attachments or anyone
+          who wants to understand the geometry of these devices.
+        </p>
+        <div class="intro-links">
+          <a href="#blueprints" class="btn btn-primary">→ VIEW BLUEPRINTS ↓</a>
+          <a href="contact.html" class="btn btn-outline">→ QUESTIONS?</a>
+        </div>
+      </div>
+      <div class="intro-media">
+        <!-- <img src="images/puffco-blueprint-preview.jpg" alt="Puffco blueprint preview"> -->
+        <div class="media-placeholder">
+          [ ADD BLUEPRINT PREVIEW IMAGE ]<br><br>
+          Upload to /images/puffco-blueprint-preview.jpg
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLUEPRINT DOWNLOAD CARDS
+         TO ADD A NEW BLUEPRINT:
+         1. Upload PDF to /files/ folder on GitHub
+         2. Copy a .bp-card block below
+         3. Update title, description, href ── -->
+    <div class="divider" id="blueprints">// AVAILABLE BLUEPRINTS //</div>
+
+    <div class="blueprint-grid">
+      <!-- ── BLUEPRINT CARD EXAMPLE
+           Update href to actual file path when ready ── -->
+      <div class="bp-card">
+        <div class="bp-card-tag">[ TECHNICAL DRAWING ]</div>
+        <h3>PUFFCO PEAK PRO</h3>
+        <p>Full dimensional reference for the Peak Pro. Includes joint geometry and key measurements.</p>
+        <!-- <a href="files/puffco-peak-pro-blueprint.pdf" download class="bp-download">↓ DOWNLOAD PDF</a> -->
+        <span class="bp-download" style="cursor:default;opacity:0.5;">COMING SOON</span>
+      </div>
+
+      <div class="bp-card">
+        <div class="bp-card-tag">[ TECHNICAL DRAWING ]</div>
+        <h3>PUFFCO PROXY</h3>
+        <p>Dimensional reference for the Proxy. Body profile, joint specs, and attachment geometry.</p>
+        <span class="bp-download" style="cursor:default;opacity:0.5;">COMING SOON</span>
+      </div>
+
+      <!-- ── ADD MORE BLUEPRINT CARDS HERE ── -->
+    </div>
+
+    <div class="divider" id="update-log-anchor">// UPDATES //</div>
+    <div id="update-loading" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:1rem;">LOADING...</div>
+    <div class="update-log" id="update-log"></div>
+
+    <div style="margin-top:3rem;">
+      <footer>
+        <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+        <div class="mono">ContactKnuckles@gmail.com</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const UPDATE_FOLDER = 'updates/puffco-blueprints/';
+    const INDEX_FILE    = UPDATE_FOLDER + 'index.txt';
+    function parseFrontmatter(raw) { const m=raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/); if(!m) return{meta:{},body:raw}; const meta={}; m[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k)meta[k.trim()]=v.join(':').trim();}); return{meta,body:m[2].trim()}; }
+    function simpleMarkdown(t) { return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/!\[(.*?)\]\((.*?)\)/g,'<img src="$2" alt="$1" loading="lazy">').replace(/\[(.*?)\]\((.*?)\)/g,'<a href="$2" target="_blank">$1</a>').split(/\n\n+/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join(''); }
+    async function loadUpdates() {
+      const logEl=document.getElementById('update-log'), loadingEl=document.getElementById('update-loading');
+      try {
+        const r=await fetch(INDEX_FILE); if(!r.ok) throw new Error();
+        const filenames=(await r.text()).split('\n').map(f=>f.trim()).filter(f=>f.endsWith('.md')); if(!filenames.length) throw new Error();
+        const results=await Promise.all(filenames.map(async f=>{try{const r=await fetch(UPDATE_FOLDER+f);return r.ok?await r.text():null;}catch{return null;}}));
+        loadingEl.style.display='none';
+        logEl.innerHTML=results.filter(Boolean).map((raw,i)=>{const{meta,body}=parseFrontmatter(raw);return`<div class="update-entry" style="animation-delay:${i*0.1}s"><div class="update-meta"><span class="update-date">${meta.date||'UNDATED'}</span><span class="update-title">${meta.title||'UNTITLED'}</span>${meta.tag?`<span class="update-tag">[ ${meta.tag} ]</span>`:''}</div><div class="update-body">${simpleMarkdown(body)}</div></div>`;}).join('')||`<div class="update-empty"><span>NO ENTRIES YET.</span></div>`;
+      } catch{loadingEl.style.display='none';logEl.innerHTML=`<div class="update-empty"><span>NO LOG ENTRIES YET.</span></div>`;}
+    }
+    loadUpdates();
+  </script>
+</body>
+</html>

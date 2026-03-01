@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glass Lathe — Knuckles Glass</title>
+  <meta name="description" content="Designing and building a custom glassblowing lathe from scratch. Full build log, photos, and videos from the Pacific Northwest.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ── PAGE-SPECIFIC STYLES ── -->
+  <style>
+
+    /* ── BRANCH HERO ── */
+    .branch-hero {
+      border-left: 2px solid var(--green);
+      padding-left: 1.5rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 0.8s ease both;
+    }
+
+    /* ── INTRO BLOCK
+       Two-column: text left, media right
+       Stacks to single column on mobile */
+    .intro-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 0.6s 0.2s both;
+    }
+
+    @media (max-width: 680px) {
+      .intro-block { grid-template-columns: 1fr; }
+    }
+
+    .intro-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .intro-text p:last-of-type { margin-bottom: 0; }
+
+    .intro-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    /* ── MEDIA PANEL ── */
+    .intro-media {
+      background: var(--bg2);
+      border: 1px solid var(--green-dim);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      position: relative;
+    }
+
+    .intro-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85);
+      transition: filter 0.3s;
+    }
+    .intro-media:hover img { filter: saturate(1); }
+
+    /* Placeholder until real image/video is added */
+    .media-placeholder {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem;
+      line-height: 2;
+    }
+
+    /* ── VIDEO EMBED
+       Uncomment and use when Patreon/YouTube link ready */
+    .intro-media iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+      border: none;
+    }
+
+    /* ── SPEC TABLE
+       Quick-reference build specs shown in intro area */
+    .spec-table {
+      margin-top: 1.5rem;
+      border: 1px solid var(--green-dim);
+      background: var(--bg2);
+      animation: fadeIn 0.6s 0.3s both;
+    }
+
+    .spec-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      border-bottom: 1px solid var(--green-dim);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .spec-row:last-child { border-bottom: none; }
+
+    .spec-key {
+      padding: 0.6rem 1rem;
+      color: var(--blue);
+      letter-spacing: 0.08em;
+      border-right: 1px solid var(--green-dim);
+      background: rgba(74,255,145,0.02);
+    }
+
+    .spec-val {
+      padding: 0.6rem 1rem;
+      color: var(--text);
+    }
+
+    /* ── UPDATE LOG ── */
+    .update-log {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .update-entry {
+      border: 1px solid var(--green-dim);
+      border-bottom: none;
+      padding: 1.5rem;
+      background: var(--bg2);
+      position: relative;
+      animation: fadeIn 0.5s both;
+      transition: border-left-color 0.2s;
+    }
+    .update-entry:last-child { border-bottom: 1px solid var(--green-dim); }
+
+    /* Left timeline bar */
+    .update-entry::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--green-dim);
+      transition: background 0.2s;
+    }
+    .update-entry:hover::before { background: var(--green); }
+
+    .update-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .update-date {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+    }
+
+    .update-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .update-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--blue);
+      letter-spacing: 0.12em;
+      margin-left: auto;
+    }
+
+    .update-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+    .update-body p { margin-bottom: 0.75rem; }
+    .update-body p:last-child { margin-bottom: 0; }
+    .update-body strong { color: var(--text); }
+    .update-body em { color: var(--earth1); font-style: italic; }
+
+    .update-body img {
+      margin-top: 1rem;
+      border: 1px solid var(--green-dim);
+      max-height: 420px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .update-body a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid var(--green-dim);
+      transition: border-color 0.2s;
+    }
+    .update-body a:hover { border-color: var(--green); }
+
+    /* Stagger animation */
+    .update-entry:nth-child(1) { animation-delay: 0.1s; }
+    .update-entry:nth-child(2) { animation-delay: 0.2s; }
+    .update-entry:nth-child(3) { animation-delay: 0.3s; }
+    .update-entry:nth-child(4) { animation-delay: 0.4s; }
+    .update-entry:nth-child(5) { animation-delay: 0.5s; }
+
+    .update-empty {
+      border: 1px solid var(--green-dim);
+      padding: 2.5rem;
+      text-align: center;
+      background: var(--bg2);
+    }
+    .update-empty span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════
+       NAVIGATION
+       ── glass-lathe.html is the active page
+       ════════════════════════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html" class="active">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html">Puffco Blueprints</a>
+      <a href="wood-boxes.html">Wood Boxes</a>
+      <a href="dfo-or-bust.html">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+
+    <!-- Back to homepage -->
+    <a href="index.html" class="back-link">← BACK TO WORKSHOP</a>
+
+    <!-- ════════════════════════════════════════════
+         HERO
+         ── Status: wip = in progress
+         ── Update status-badge class when complete:
+            active (ongoing) | wip (building) | done (finished)
+         ════════════════════════════════════════════ -->
+    <div class="branch-hero">
+      <div class="sys-line">
+        SYS: <span>knucklesglass.com</span> // MODULE: <span>GLASS-LATHE</span>
+      </div>
+      <h1 class="page-title">GLASS LATHE</h1>
+      <div class="tagline">Building a custom glassblowing lathe from the ground up.</div>
+      <span class="status-badge wip">◐ IN PROGRESS</span>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         INTRO BLOCK
+         ── Left: project description + links
+         ── Right: hero image or video embed
+         ──
+         ── TO ADD HERO IMAGE:
+            1. Upload photo to /images/lathe-hero.jpg
+            2. Remove the .media-placeholder div
+            3. Uncomment the <img> tag below
+         ──
+         ── TO EMBED VIDEO instead of image:
+            Replace contents of .intro-media with:
+            <iframe src="https://www.youtube.com/embed/YOUR_ID"
+              allowfullscreen title="Glass Lathe build video">
+            </iframe>
+         ════════════════════════════════════════════ -->
+    <div class="divider">// ABOUT THIS BUILD //</div>
+
+    <div class="intro-block">
+      <div class="intro-text">
+        <p>
+          I'm designing and building a custom glassblowing lathe from scratch.
+          Nothing on the market does exactly what I need at a price that makes
+          sense — so I'm making my own.
+        </p>
+        <p>
+          The goal is a variable-speed, near-silent lathe with a long enough
+          bed for large pieces and a modular torch mount. Every step of the
+          build is being filmed.
+        </p>
+        <p>
+          This is the biggest fabrication project I've taken on.
+          Follow along on Patreon for the full video series and behind-the-scenes.
+        </p>
+
+        <!-- ── Links — update hrefs when ready ── -->
+        <div class="intro-links">
+          <a href="https://patreon.com" target="_blank" class="btn btn-primary">→ FOLLOW ON PATREON</a>
+          <a href="#update-log" class="btn btn-outline">→ BUILD LOG ↓</a>
+        </div>
+      </div>
+
+      <div class="intro-media">
+        <!-- Uncomment when image is ready:
+        <img src="images/lathe-hero.jpg" alt="Glass lathe build in progress"> -->
+
+        <div class="media-placeholder">
+          [ ADD HERO IMAGE OR VIDEO ]<br><br>
+          Upload to /images/lathe-hero.jpg<br>
+          or paste a YouTube embed URL.<br><br>
+          See comments in HTML above.
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         SPEC TABLE
+         ── Quick-reference build specifications
+         ── Update values as the build progresses
+         ── Add/remove rows by copying a .spec-row block
+         ════════════════════════════════════════════ -->
+    <div class="divider">// BUILD SPECS //</div>
+
+    <div class="spec-table">
+      <div class="spec-row">
+        <div class="spec-key">MATERIAL</div>
+        <div class="spec-val">80/20 aluminum extrusion, steel hardware</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">SPEED RANGE</div>
+        <div class="spec-val">0 – 120 RPM variable</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">DRIVE</div>
+        <div class="spec-val">DC motor with PWM speed controller</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">BED LENGTH</div>
+        <div class="spec-val">TBD — designed for large pieces</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">NOISE</div>
+        <div class="spec-val">Near-silent operation goal</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">STATUS</div>
+        <div class="spec-val">Headstock complete — tailstock in progress</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-key">FILMING</div>
+        <div class="spec-val">Full build on Patreon</div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         UPDATE LOG
+         ── Loaded automatically from:
+            updates/glass-lathe/index.txt
+            updates/glass-lathe/*.md
+         ──
+         ── TO ADD AN ENTRY:
+            1. Write a .md file (see UPDATE-FORMAT-REFERENCE.md)
+            2. Upload to updates/glass-lathe/ on GitHub
+            3. Add filename to TOP of updates/glass-lathe/index.txt
+         ════════════════════════════════════════════ -->
+    <div class="divider" id="update-log-anchor">// BUILD LOG //</div>
+
+    <div
+      id="update-loading"
+      style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:1rem;"
+    >
+      LOADING LOG...
+    </div>
+
+    <div class="update-log" id="update-log"></div>
+
+    <!-- ── FOOTER ── -->
+    <div style="margin-top:3rem;">
+      <footer>
+        <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+        <div class="mono">ContactKnuckles@gmail.com</div>
+      </footer>
+    </div>
+
+  </div><!-- end .wrapper -->
+
+  <script>
+    // ════════════════════════════════════════════
+    // UPDATE LOG LOADER
+    // ── UPDATE_FOLDER: path to this page's updates
+    //    Must match the actual folder in your repo
+    // ── Reads index.txt to get filenames
+    // ── Fetches each .md file and renders it
+    // ════════════════════════════════════════════
+    const UPDATE_FOLDER = 'updates/glass-lathe/'; // ← this page's update folder
+    const INDEX_FILE    = UPDATE_FOLDER + 'index.txt';
+
+    // ── Parse frontmatter block from top of .md file
+    // Expected format:
+    //   ---
+    //   date: 2026-03-01
+    //   title: Entry title
+    //   tag: BUILD LOG
+    //   ---
+    function parseFrontmatter(raw) {
+      const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+      if (!match) return { meta: {}, body: raw };
+
+      const meta = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...rest] = line.split(':');
+        if (key) meta[key.trim()] = rest.join(':').trim();
+      });
+
+      return { meta, body: match[2].trim() };
+    }
+
+    // ── Convert basic markdown to HTML
+    // Supports: **bold**, *italic*, ![alt](src), [text](url), paragraphs
+    function simpleMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g,     '<em>$1</em>')
+        .replace(/!\[(.*?)\]\((.*?)\)/g,
+          '<img src="$2" alt="$1" loading="lazy">')
+        .replace(/\[(.*?)\]\((.*?)\)/g,
+          '<a href="$2" target="_blank">$1</a>')
+        .split(/\n\n+/)
+        .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    // ── Build HTML for one update entry
+    function renderEntry(meta, body, index) {
+      const date  = meta.date  || 'UNDATED';
+      const title = meta.title || 'UNTITLED';
+      const tag   = meta.tag   || '';
+
+      return `
+        <div class="update-entry" style="animation-delay:${index * 0.1}s">
+          <div class="update-meta">
+            <span class="update-date">${date}</span>
+            <span class="update-title">${title}</span>
+            ${tag ? `<span class="update-tag">[ ${tag} ]</span>` : ''}
+          </div>
+          <div class="update-body">${simpleMarkdown(body)}</div>
+        </div>`;
+    }
+
+    // ── Fetch index, then each update file, then render
+    async function loadUpdates() {
+      const logEl     = document.getElementById('update-log');
+      const loadingEl = document.getElementById('update-loading');
+
+      try {
+        const indexRes = await fetch(INDEX_FILE);
+        if (!indexRes.ok) throw new Error('No index');
+
+        const indexText = await indexRes.text();
+
+        // Filter out comment lines and blank lines
+        const filenames = indexText
+          .split('\n')
+          .map(f => f.trim())
+          .filter(f => f.endsWith('.md'));
+
+        if (filenames.length === 0) throw new Error('Empty index');
+
+        // Fetch all update files in parallel
+        const results = await Promise.all(
+          filenames.map(async (filename) => {
+            try {
+              const res = await fetch(UPDATE_FOLDER + filename);
+              return res.ok ? await res.text() : null;
+            } catch { return null; }
+          })
+        );
+
+        // Render each entry
+        const html = results
+          .filter(Boolean)
+          .map((raw, i) => {
+            const { meta, body } = parseFrontmatter(raw);
+            return renderEntry(meta, body, i);
+          })
+          .join('');
+
+        loadingEl.style.display = 'none';
+        logEl.innerHTML = html || emptyState();
+
+      } catch(e) {
+        loadingEl.style.display = 'none';
+        logEl.innerHTML = emptyState();
+      }
+    }
+
+    // ── Shown when no updates exist yet
+    function emptyState() {
+      return `<div class="update-empty">
+        <span>NO LOG ENTRIES YET — check back soon.</span>
+      </div>`;
+    }
+
+    loadUpdates();
+  </script>
+
+</body>
+</html>

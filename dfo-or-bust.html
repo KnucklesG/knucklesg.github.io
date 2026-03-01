@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DFO or Bust — Knuckles Glass</title>
+  <meta name="description" content="DFO or Bust — a Gameboy glassblowing simulator made for the Degenerate Flame Off 2015. Play it now on itch.io.">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Earth hero variant for personal project ── */
+    .branch-hero { border-left: 2px solid var(--earth1); padding-left: 1.5rem; margin-bottom: 2.5rem; animation: fadeIn 0.8s ease both; }
+
+    /* ── GAME FEATURE BLOCK
+       Large centered call to play ── */
+    .game-feature {
+      background: var(--bg2);
+      border: 1px solid var(--earth2);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.6s 0.2s both;
+    }
+
+    /* Decorative corner brackets */
+    .game-feature::before {
+      content: '+--+';
+      position: absolute;
+      top: 0.75rem; left: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--earth2);
+    }
+    .game-feature::after {
+      content: '+--+';
+      position: absolute;
+      bottom: 0.75rem; right: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--earth2);
+    }
+
+    .game-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--earth1);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    .game-title-big {
+      font-family: var(--font-mono);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--earth1);
+      text-shadow: 0 0 30px rgba(160,128,96,0.3);
+      margin-bottom: 0.5rem;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .game-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .play-btn {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--bg);
+      background: var(--earth1);
+      padding: 0.85rem 3rem;
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .play-btn:hover { box-shadow: 0 0 30px rgba(160,128,96,0.4); transform: translateY(-2px); }
+
+    /* ── INFO BLOCK ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 0.6s 0.3s both;
+    }
+    @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--earth2);
+      padding: 1.25rem;
+    }
+
+    .info-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--earth1);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card-val {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── UPDATE LOG ── */
+    .update-log { display: flex; flex-direction: column; }
+    .update-entry { border: 1px solid var(--earth2); border-bottom: none; padding: 1.5rem; background: var(--bg2); position: relative; animation: fadeIn 0.5s both; }
+    .update-entry:last-child { border-bottom: 1px solid var(--earth2); }
+    .update-entry::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--earth2); transition: background 0.2s; }
+    .update-entry:hover::before { background: var(--earth1); }
+    .update-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .update-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--earth1); letter-spacing: 0.1em; }
+    .update-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); }
+    .update-tag { font-family: var(--font-mono); font-size: 0.6rem; color: var(--blue); letter-spacing: 0.12em; margin-left: auto; }
+    .update-body { font-size: 1rem; line-height: 1.75; color: var(--muted); }
+    .update-body p { margin-bottom: 0.75rem; }
+    .update-body strong { color: var(--text); }
+    .update-body a { color: var(--earth1); text-decoration: none; border-bottom: 1px solid var(--earth2); }
+    .update-empty { border: 1px solid var(--earth2); padding: 2.5rem; text-align: center; background: var(--bg2); }
+    .update-empty span { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html">Puffco Blueprints</a>
+      <a href="wood-boxes.html">Wood Boxes</a>
+      <a href="dfo-or-bust.html" class="active">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+    <a href="index.html" class="back-link">← BACK TO WORKSHOP</a>
+
+    <div class="branch-hero">
+      <div class="sys-line">SYS: <span>knucklesglass.com</span> // MODULE: <span>DFO-OR-BUST</span></div>
+      <h1 class="page-title" style="color:var(--earth1);">DFO OR BUST</h1>
+      <div class="tagline">A Gameboy glassblowing simulator. Real event, real game.</div>
+      <span class="status-badge earth active">● PLAYABLE — ITCH.IO</span>
+    </div>
+
+    <!-- ── GAME FEATURE BLOCK ── -->
+    <div class="game-feature">
+      <div class="game-label">// GAMEBOY GAME — 2015 //</div>
+      <div class="game-title-big">DFO OR BUST</div>
+      <div class="game-subtitle">Make headys. Survive the event. Get to the DFO.</div>
+      <a href="https://knucklesglass.itch.io/dfo" target="_blank" class="play-btn">▶ PLAY NOW ON ITCH.IO</a>
+    </div>
+
+    <!-- ── INFO GRID ── -->
+    <div class="divider" style="color:var(--earth2);">// ABOUT THE GAME //</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">PLATFORM</div>
+        <div class="info-card-val">Gameboy (playable in browser via itch.io)</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">MADE FOR</div>
+        <div class="info-card-val">Degenerate Flame Off (DFO) — 2015</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">GENRE</div>
+        <div class="info-card-val">Glassblowing simulator. A real life DFO in 8-bit.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">GOAL</div>
+        <div class="info-card-val">Make heady glass pieces and earn your spot at the DFO.</div>
+      </div>
+    </div>
+
+    <div class="divider" style="color:var(--earth2);" id="update-log-anchor">// NOTES //</div>
+    <div id="update-loading" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:1rem;">LOADING...</div>
+    <div class="update-log" id="update-log"></div>
+
+    <div style="margin-top:3rem;">
+      <footer>
+        <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+        <div class="mono">ContactKnuckles@gmail.com</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const UPDATE_FOLDER = 'updates/dfo-or-bust/';
+    const INDEX_FILE    = UPDATE_FOLDER + 'index.txt';
+    function parseFrontmatter(raw) { const m=raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/); if(!m) return{meta:{},body:raw}; const meta={}; m[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k)meta[k.trim()]=v.join(':').trim();}); return{meta,body:m[2].trim()}; }
+    function simpleMarkdown(t) { return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/!\[(.*?)\]\((.*?)\)/g,'<img src="$2" alt="$1" loading="lazy">').replace(/\[(.*?)\]\((.*?)\)/g,'<a href="$2" target="_blank">$1</a>').split(/\n\n+/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join(''); }
+    async function loadUpdates() {
+      const logEl=document.getElementById('update-log'),loadingEl=document.getElementById('update-loading');
+      try {
+        const r=await fetch(INDEX_FILE); if(!r.ok) throw new Error();
+        const filenames=(await r.text()).split('\n').map(f=>f.trim()).filter(f=>f.endsWith('.md')); if(!filenames.length) throw new Error();
+        const results=await Promise.all(filenames.map(async f=>{try{const r=await fetch(UPDATE_FOLDER+f);return r.ok?await r.text():null;}catch{return null;}}));
+        loadingEl.style.display='none';
+        logEl.innerHTML=results.filter(Boolean).map((raw,i)=>{const{meta,body}=parseFrontmatter(raw);return`<div class="update-entry" style="animation-delay:${i*0.1}s"><div class="update-meta"><span class="update-date">${meta.date||'UNDATED'}</span><span class="update-title">${meta.title||'UNTITLED'}</span>${meta.tag?`<span class="update-tag">[ ${meta.tag} ]</span>`:''}</div><div class="update-body">${simpleMarkdown(body)}</div></div>`;}).join('')||`<div class="update-empty"><span>NO ENTRIES YET.</span></div>`;
+      } catch{loadingEl.style.display='none';logEl.innerHTML=`<div class="update-empty"><span>NO LOG ENTRIES YET.</span></div>`;}
+    }
+    loadUpdates();
+  </script>
+</body>
+</html>

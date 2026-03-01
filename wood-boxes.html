@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wood Boxes — Knuckles Glass</title>
+  <meta name="description" content="Custom scan-fit wood stash boxes made by a master craftsman to fit your glass piece exactly.">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Earth-tone hero for personal/collab pages ── */
+    .branch-hero { border-left: 2px solid var(--earth1); padding-left: 1.5rem; margin-bottom: 2.5rem; animation: fadeIn 0.8s ease both; }
+    .branch-hero .page-title { color: var(--earth1); text-shadow: 0 0 30px rgba(160,128,96,0.2); }
+
+    .intro-block { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; animation: fadeIn 0.6s 0.2s both; }
+    @media (max-width: 680px) { .intro-block { grid-template-columns: 1fr; } }
+    .intro-text p { font-size: 1.05rem; line-height: 1.8; color: var(--text); margin-bottom: 1rem; }
+    .intro-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+    .intro-media { background: var(--bg2); border: 1px solid var(--earth2); overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 240px; }
+    .intro-media img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85); }
+    .media-placeholder { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-align: center; padding: 2rem; line-height: 2; }
+
+    /* ── PROCESS STEPS
+       Shows the scan-to-box workflow ── */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0;
+      margin-bottom: 2rem;
+      border: 1px solid var(--earth2);
+      animation: fadeIn 0.6s 0.3s both;
+    }
+
+    .process-step {
+      padding: 1.5rem;
+      border-right: 1px solid var(--earth2);
+      position: relative;
+    }
+    .process-step:last-child { border-right: none; }
+
+    @media (max-width: 600px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .process-step { border-right: none; border-bottom: 1px solid var(--earth2); }
+      .process-step:last-child { border-bottom: none; }
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--earth1);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Earth-tone btn overrides ── */
+    .btn-earth {
+      color: var(--bg);
+      background: var(--earth1);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 0.65rem 1.75rem;
+      display: inline-block;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .btn-earth:hover { box-shadow: 0 0 25px rgba(160,128,96,0.3); transform: translateY(-2px); }
+
+    .btn-earth-outline {
+      color: var(--earth1);
+      border: 1px solid var(--earth2);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 0.65rem 1.75rem;
+      display: inline-block;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-earth-outline:hover { background: rgba(160,128,96,0.08); border-color: var(--earth1); }
+
+    /* ── Earth divider variant ── */
+    .divider.earth::before, .divider.earth::after {
+      background: linear-gradient(90deg, transparent, var(--earth2), transparent);
+    }
+
+    /* ── UPDATE LOG (earth variant) ── */
+    .update-log { display: flex; flex-direction: column; }
+    .update-entry { border: 1px solid var(--earth2); border-bottom: none; padding: 1.5rem; background: var(--bg2); position: relative; animation: fadeIn 0.5s both; }
+    .update-entry:last-child { border-bottom: 1px solid var(--earth2); }
+    .update-entry::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--earth2); transition: background 0.2s; }
+    .update-entry:hover::before { background: var(--earth1); }
+    .update-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .update-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--earth1); letter-spacing: 0.1em; }
+    .update-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); }
+    .update-tag { font-family: var(--font-mono); font-size: 0.6rem; color: var(--blue); letter-spacing: 0.12em; margin-left: auto; }
+    .update-body { font-size: 1rem; line-height: 1.75; color: var(--muted); }
+    .update-body p { margin-bottom: 0.75rem; }
+    .update-body strong { color: var(--text); }
+    .update-body img { margin-top: 1rem; border: 1px solid var(--earth2); max-height: 420px; object-fit: cover; width: 100%; }
+    .update-body a { color: var(--earth1); text-decoration: none; border-bottom: 1px solid var(--earth2); }
+    .update-empty { border: 1px solid var(--earth2); padding: 2.5rem; text-align: center; background: var(--bg2); }
+    .update-empty span { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">KNUCKLES//</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="shop">[ SHOP ]</a>
+      <a href="glass-art.html">Glass Art</a>
+      <a href="glass-lathe.html">Glass Lathe</a>
+      <a href="kiln-connect.html">Kiln Connect</a>
+      <a href="puffco-blueprints.html">Puffco Blueprints</a>
+      <a href="wood-boxes.html" class="active">Wood Boxes</a>
+      <a href="dfo-or-bust.html">DFO or Bust</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="wrapper">
+    <a href="index.html" class="back-link">← BACK TO WORKSHOP</a>
+
+    <div class="branch-hero">
+      <div class="sys-line">SYS: <span>knucklesglass.com</span> // MODULE: <span>WOOD-BOXES</span></div>
+      <h1 class="page-title">WOOD BOXES</h1>
+      <div class="tagline">Scan-fit stash boxes. Every box built for one specific piece.</div>
+      <span class="status-badge earth active">● AVAILABLE — COLLAB WITH POP</span>
+    </div>
+
+    <div class="divider earth">// ABOUT THIS COLLAB //</div>
+
+    <div class="intro-block">
+      <div class="intro-text">
+        <p>
+          My pops is a master craftsman with decades of woodworking experience.
+          Together we developed a process to make stash boxes that fit your
+          glass piece exactly — not approximately, exactly.
+        </p>
+        <p>
+          We scan the piece, model the interior cavity, and cut it to fit.
+          The result is a box where your piece sits perfectly — protected,
+          displayed, and ready to travel.
+        </p>
+        <p>
+          Get in touch to start an order. Every box is one of a kind.
+        </p>
+        <div class="intro-links">
+          <a href="contact.html" class="btn-earth">→ ORDER A BOX</a>
+          <a href="#process" class="btn-earth-outline">→ HOW IT WORKS ↓</a>
+        </div>
+      </div>
+      <div class="intro-media">
+        <!-- <img src="images/wood-box-hero.jpg" alt="Custom wood stash box"> -->
+        <div class="media-placeholder">
+          [ ADD WOOD BOX PHOTO ]<br><br>
+          Upload to /images/wood-box-hero.jpg
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROCESS STEPS ── -->
+    <div class="divider earth" id="process">// THE PROCESS //</div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">SCAN</div>
+        <div class="step-desc">Your piece is scanned to capture exact dimensions and profile.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">MODEL</div>
+        <div class="step-desc">Interior cavity is modeled from the scan data.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">CUT</div>
+        <div class="step-desc">Pop crafts the box and cuts the fitted interior by hand.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">FINISH</div>
+        <div class="step-desc">Sanded, finished, and ready to protect your piece.</div>
+      </div>
+    </div>
+
+    <div class="divider earth" id="update-log-anchor">// PROJECT LOG //</div>
+    <div id="update-loading" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-bottom:1rem;">LOADING...</div>
+    <div class="update-log" id="update-log"></div>
+
+    <div style="margin-top:3rem;">
+      <footer>
+        <div class="mono">// <span>KNUCKLES GLASS</span> // PACIFIC NORTHWEST</div>
+        <div class="mono">ContactKnuckles@gmail.com</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const UPDATE_FOLDER = 'updates/wood-boxes/';
+    const INDEX_FILE    = UPDATE_FOLDER + 'index.txt';
+    function parseFrontmatter(raw) { const m=raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/); if(!m) return{meta:{},body:raw}; const meta={}; m[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k)meta[k.trim()]=v.join(':').trim();}); return{meta,body:m[2].trim()}; }
+    function simpleMarkdown(t) { return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/!\[(.*?)\]\((.*?)\)/g,'<img src="$2" alt="$1" loading="lazy">').replace(/\[(.*?)\]\((.*?)\)/g,'<a href="$2" target="_blank">$1</a>').split(/\n\n+/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join(''); }
+    async function loadUpdates() {
+      const logEl=document.getElementById('update-log'),loadingEl=document.getElementById('update-loading');
+      try {
+        const r=await fetch(INDEX_FILE); if(!r.ok) throw new Error();
+        const filenames=(await r.text()).split('\n').map(f=>f.trim()).filter(f=>f.endsWith('.md')); if(!filenames.length) throw new Error();
+        const results=await Promise.all(filenames.map(async f=>{try{const r=await fetch(UPDATE_FOLDER+f);return r.ok?await r.text():null;}catch{return null;}}));
+        loadingEl.style.display='none';
+        logEl.innerHTML=results.filter(Boolean).map((raw,i)=>{const{meta,body}=parseFrontmatter(raw);return`<div class="update-entry" style="animation-delay:${i*0.1}s"><div class="update-meta"><span class="update-date">${meta.date||'UNDATED'}</span><span class="update-title">${meta.title||'UNTITLED'}</span>${meta.tag?`<span class="update-tag">[ ${meta.tag} ]</span>`:''}</div><div class="update-body">${simpleMarkdown(body)}</div></div>`;}).join('')||`<div class="update-empty"><span>NO ENTRIES YET.</span></div>`;
+      } catch{loadingEl.style.display='none';logEl.innerHTML=`<div class="update-empty"><span>NO LOG ENTRIES YET — check back soon.</span></div>`;}
+    }
+    loadUpdates();
+  </script>
+</body>
+</html>
