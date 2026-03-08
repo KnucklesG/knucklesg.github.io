@@ -774,6 +774,28 @@
     // ── Special return '__clear__' clears the screen
     // ── Window.open() can be used to navigate to pages
     // ════════════════════════════════════════════
+
+    // ── ADVENTURE GAME STATE
+let adventureStep = 0; // 0=idle 1=torchlit 2=melted 3=q1 4=q2 5=q3
+
+function setGlow(level) {
+  // level: 0=off, 1=dim, 2=medium, 3=full
+  const glows = ['none','rgba(160,80,20,0.15)','rgba(180,90,10,0.28)','rgba(200,100,0,0.42)'];
+  document.body.style.boxShadow = `inset 0 0 120px 40px ${glows[level]}`;
+  document.body.style.transition = 'box-shadow 1.2s ease';
+}
+
+function adventureReset() {
+  adventureStep = 0;
+  setGlow(0);
+}
+
+// Obfuscated reward — assembled only on completion
+function getReward() {
+  const p = ['KNU','CKL','ES-','WOR','KSH','OP'];
+  return p.join('');
+}
+
     const commands = {
 
       help: () => `<span class="t-blue">AVAILABLE COMMANDS:</span><br>
@@ -829,6 +851,71 @@
       fire:   () => `<span class="t-earth">🔥 torch is lit.</span>`,
       sudo:   () => `<span class="t-muted">nice try.</span>`,
 
+      torch: () => {
+        adventureStep = 1;
+        setGlow(0);
+        return `<span class="t-earth">The workshop is dark. Smells like char and glass dust.</span><br>
+        <span class="t-muted">Type <span class="t-green">light</span> to find the torch.</span>`;
+      },
+
+      light: () => {
+        if (adventureStep !== 1) return `<span class="t-muted">Nothing to light.</span>`;
+        adventureStep = 2;
+        setGlow(1);
+        return `<span class="t-earth">...click. click. FWOOMPH. 🔥</span><br>
+        <span class="t-green">The workshop floods with warmth. The torch is lit.</span><br>
+        <span class="t-muted">The glass is calling. Type <span class="t-green">melt</span> to work it.</span>`;
+      },
+
+      melt: () => {
+        if (adventureStep !== 2) return `<span class="t-muted">Nothing to melt.</span>`;
+        adventureStep = 3;
+        return `<span class="t-earth">The bead glows orange, then white. You're in the zone.</span><br>
+        <span class="t-muted">Think you know your glass? Type <span class="t-green">test</span> to find out.</span>`;
+      },
+
+      test: () => {
+        if (adventureStep !== 3) return `<span class="t-muted">No test running.</span>`;
+        return `<span class="t-blue">Q1: What is the coefficient of thermal expansion of borosilicate glass?</span><br>
+        <span class="t-muted">Enter the number:</span>`;
+      },
+
+      '33': () => {
+        if (adventureStep !== 3) return `<span class="t-muted">command not found: 33 — try 'help'</span>`;
+        adventureStep = 4;
+        setGlow(2);
+        return `<span class="t-green">✓ Correct.</span> The bead holds steady.<br>
+        <span class="t-blue">Q2: What is Knuckles' favorite shape to make?</span><br>
+        <span class="t-muted">Enter your answer:</span>`;
+      },
+
+      sherlock: () => {
+        if (adventureStep !== 4) return `<span class="t-muted">command not found: sherlock — try 'help'</span>`;
+        adventureStep = 5;
+        setGlow(3);
+        return `<span class="t-green">✓ Correct.</span> Classic choice.<br>
+        <span class="t-blue">Q3: Devitrification — what is it, and should you be afraid?</span><br>
+        &nbsp;&nbsp;<span class="t-green">a)</span> A desirable crystal pattern — embrace it<br>
+        &nbsp;&nbsp;<span class="t-green">b)</span> A rival glassblower — challenge accepted<br>
+        &nbsp;&nbsp;<span class="t-green">c)</span> Surface crystallization that ruins a piece — yes, be afraid<br>
+        &nbsp;&nbsp;<span class="t-green">d)</span> The process of annealing — no fear necessary<br>
+        <span class="t-muted">Enter a, b, c, or d:</span>`;
+      },
+
+      c: () => {
+        if (adventureStep !== 5) return `<span class="t-muted">command not found: c — try 'help'</span>`;
+        adventureStep = 0;
+        const code = getReward();
+        return `<span class="t-green">✓ Correct. Three for three. You know your glass.</span><br><br>
+        <span class="t-earth">A note slides across the bench:<br>
+        "From one glasshead to another."</span><br><br>
+        <span class="t-muted">——————————————————</span><br>
+        DISCOUNT KEY: <span class="t-green">${code}</span><br>
+        <span class="t-muted">Use it at checkout. You earned it.</span><br>
+        <span class="t-muted">——————————————————</span><br><br>
+        <span class="t-muted">Type <span class="t-green">shop</span> to spend it.</span>`;
+      },
+
       clear: () => '__clear__',
     };
     
@@ -860,8 +947,13 @@
           appendLine(`<div style="margin-left:1rem;margin-bottom:0.5rem;">${result}</div>`);
         }
       } else {
-        // Unknown command response
-        appendLine(`<span class="t-muted">command not found: ${val} — try 'help'</span>`);
+        // Wrong answer during adventure = full restart
+        if (adventureStep >= 3) {
+          adventureReset();
+          appendLine(`<span class="t-muted">The torch sputters and dies. The workshop goes dark.....</span>`);
+        } else {
+          appendLine(`<span class="t-muted">command not found: ${val} — try 'help'</span>`);
+        }
       }
 
       input.value = '';
