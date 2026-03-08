@@ -405,6 +405,7 @@
       border: 1px solid var(--green-dim);
       margin-bottom: 3rem;
       animation: fadeIn 0.6s 0.6s both;
+      transition: border-color 1.2s ease, box-shadow 1.2s ease;
     }
 
     .term-titlebar {
@@ -779,10 +780,11 @@
 let adventureStep = 0; // 0=idle 1=torchlit 2=melted 3=q1 4=q2 5=q3
 
 function setGlow(level) {
-  // level: 0=off, 1=dim, 2=medium, 3=full
   const glows = ['none','rgba(160,80,20,0.15)','rgba(180,90,10,0.28)','rgba(200,100,0,0.42)'];
+  const borders = ['var(--green-dim)','#a05020','#c06010','#e07000'];
   document.body.style.boxShadow = `inset 0 0 120px 40px ${glows[level]}`;
   document.body.style.transition = 'box-shadow 1.2s ease';
+  document.querySelector('.terminal').style.borderColor = borders[level];
 }
 
 function adventureReset() {
@@ -848,7 +850,7 @@ function getReward() {
       // ── SECRET EASTER EGGS (not listed in help)
       whoami: () => `<span class="t-green">knuckles</span> — glassblower, maker, coder, PNW.`,
       ls:     () => `<span class="t-muted">glass-art/&nbsp; glass-lathe/&nbsp; kiln-connect/&nbsp; wood-boxes/&nbsp; dfo/&nbsp; blueprints/</span>`,
-      fire:   () => `<span class="t-earth">🔥 you need a torch first</span>`,
+      fire:   () => `<span class="t-earth">🔥 looks like this fam</span>`,
       sudo:   () => `<span class="t-muted">nice try nerd.</span>`,
       torch: () => {
         adventureStep = 1;
@@ -946,10 +948,12 @@ function getReward() {
           appendLine(`<div style="margin-left:1rem;margin-bottom:0.5rem;">${result}</div>`);
         }
       } else {
-        // Wrong answer during adventure = full restart
-        if (adventureStep >= 3) {
+        if (adventureStep >= 1) {
           adventureReset();
-          appendLine(`<span class="t-muted">The torch sputters and dies. The workshop goes dark.....</span>`);
+          setTimeout(() => {
+            log.innerHTML = '';
+            appendLine(`<span style="color:#ff4040">⚠ TERMINAL CRASHED — wrong answer. Workshop goes dark.</span><br><span class="t-muted">Type <span class="t-green">torch</span> to start over.</span>`);
+          }, 600);
         } else {
           appendLine(`<span class="t-muted">command not found: ${val} — try 'help'</span>`);
         }
