@@ -30,7 +30,7 @@
       --earth1:     #a08060;   /* warm earth accent */
       --earth2:     #6b5040;   /* muted earth for borders */
       --text:       #c8d4c0;   /* primary text */
-      --muted:      #4a5445;   /* secondary/faded text */
+      --muted:      #889980;   /* secondary/faded text */
       --grid:       rgba(74, 255, 145, 0.04); /* blueprint grid opacity */
       --font-mono:  'Share Tech Mono', monospace;
       --font-serif: 'Crimson Pro', Georgia, serif;
@@ -197,8 +197,9 @@
       margin-top: 1.5rem;
       font-family: var(--font-mono);
       font-size: 0.85rem;
-      color: var(--bg);
-      background: var(--green);
+      color: var(--green);
+      background: var(--bg);
+      border: 1px solid var(--green-dim);
       padding: 0.75rem 2rem;
       text-decoration: none;
       letter-spacing: 0.1em;
@@ -580,7 +581,7 @@
       <div class="sys-line">SYS: <span>knucklesglass.com</span> // PACIFIC NORTHWEST // BOROSILICATE GLASS ART</div>
       <h1>KNUCKLES</h1>
       <div class="tagline">Glass_ Code_ Art_ Science_ Wookery_</div>
-      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="hero-cta">→ VISIT THE SHOP</a>
+      <a href="https://knucklesglass.bigcartel.com/" target="_blank" class="hero-cta">→ The Glass Shop</a>
     </header>
 
     <!-- ════════════════════════════════════════════
@@ -830,7 +831,7 @@
 
       clear: () => '__clear__',
     };
-
+    
     const log    = document.getElementById('term-log');
     const input  = document.getElementById('term-input');
 
