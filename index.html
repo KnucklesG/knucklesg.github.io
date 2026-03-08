@@ -848,14 +848,13 @@ function getReward() {
       // ── SECRET EASTER EGGS (not listed in help)
       whoami: () => `<span class="t-green">knuckles</span> — glassblower, maker, coder, PNW.`,
       ls:     () => `<span class="t-muted">glass-art/&nbsp; glass-lathe/&nbsp; kiln-connect/&nbsp; wood-boxes/&nbsp; dfo/&nbsp; blueprints/</span>`,
-      fire:   () => `<span class="t-earth">🔥 torch is lit.</span>`,
-      sudo:   () => `<span class="t-muted">nice try.</span>`,
-
+      fire:   () => `<span class="t-earth">🔥 you need a torch first</span>`,
+      sudo:   () => `<span class="t-muted">nice try nerd.</span>`,
       torch: () => {
         adventureStep = 1;
         setGlow(0);
-        return `<span class="t-earth">The workshop is dark. Smells like char and glass dust.</span><br>
-        <span class="t-muted">Type <span class="t-green">light</span> to find the torch.</span>`;
+        return `<span class="t-earth">The workshop is dark. Smells like terps and glass dust.</span><br>
+        <span class="t-muted">This is a word association game — type a one word reply to continue.</span>`;
       },
 
       light: () => {
@@ -864,27 +863,27 @@ function getReward() {
         setGlow(1);
         return `<span class="t-earth">...click. click. FWOOMPH. 🔥</span><br>
         <span class="t-green">The workshop floods with warmth. The torch is lit.</span><br>
-        <span class="t-muted">The glass is calling. Type <span class="t-green">melt</span> to work it.</span>`;
+        <span class="t-muted">You pick up the glass and bein to...</span>`;
       },
 
       melt: () => {
         if (adventureStep !== 2) return `<span class="t-muted">Nothing to melt.</span>`;
         adventureStep = 3;
-        return `<span class="t-earth">The bead glows orange, then white. You're in the zone.</span><br>
+        return `<span class="t-earth">The heady glows orange, twisting in the flame. You're in the zone.</span><br>
         <span class="t-muted">Think you know your glass? Type <span class="t-green">test</span> to find out.</span>`;
       },
 
       test: () => {
         if (adventureStep !== 3) return `<span class="t-muted">No test running.</span>`;
-        return `<span class="t-blue">Q1: What is the coefficient of thermal expansion of borosilicate glass?</span><br>
-        <span class="t-muted">Enter the number:</span>`;
+        return `<span class="t-blue">Q1: What is the coefficient thermal expansion of borosilicate glass?</span><br>
+        <span class="t-muted">Enter your answer:</span>`;
       },
 
       '33': () => {
         if (adventureStep !== 3) return `<span class="t-muted">command not found: 33 — try 'help'</span>`;
         adventureStep = 4;
         setGlow(2);
-        return `<span class="t-green">✓ Correct.</span> The bead holds steady.<br>
+        return `<span class="t-green">✓ Correct.</span> The heady holds steady.<br>
         <span class="t-blue">Q2: What is Knuckles' favorite shape to make?</span><br>
         <span class="t-muted">Enter your answer:</span>`;
       },
@@ -895,10 +894,10 @@ function getReward() {
         setGlow(3);
         return `<span class="t-green">✓ Correct.</span> Classic choice.<br>
         <span class="t-blue">Q3: Devitrification — what is it, and should you be afraid?</span><br>
-        &nbsp;&nbsp;<span class="t-green">a)</span> A desirable crystal pattern — embrace it<br>
-        &nbsp;&nbsp;<span class="t-green">b)</span> A rival glassblower — challenge accepted<br>
-        &nbsp;&nbsp;<span class="t-green">c)</span> Surface crystallization that ruins a piece — yes, be afraid<br>
-        &nbsp;&nbsp;<span class="t-green">d)</span> The process of annealing — no fear necessary<br>
+        &nbsp;&nbsp;<span class="t-green">a)</span> A heady crystal pattern - embrace it<br>
+        &nbsp;&nbsp;<span class="t-green">b)</span> A bar downtown - We always find him there<br>
+        &nbsp;&nbsp;<span class="t-green">c)</span> Surface crystallization that can ruin a piece<br>
+        &nbsp;&nbsp;<span class="t-green">d)</span> The process of annealing - no fear necessary<br>
         <span class="t-muted">Enter a, b, c, or d:</span>`;
       },
 
