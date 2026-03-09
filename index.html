@@ -847,8 +847,8 @@ function getReward() {
         Email: <span class="t-green">ContactKnuckles@gmail.com</span><br>
         Instagram: <a href="https://www.instagram.com/knucklesglass/" target="_blank" style="color:var(--green)">@knucklesglass</a>`,
 
-      // ── SECRET EASTER EGGS (not listed in help)
-      whoami: () => `<span class="t-green">knuckles</span> — glassblower, maker, coder, PNW.`,
+      //Eggs
+      whoami: () => `<span class="t-green">The million dollar question...</span>`,
       ls:     () => `<span class="t-muted">glass-art/&nbsp; glass-lathe/&nbsp; kiln-connect/&nbsp; wood-boxes/&nbsp; dfo/&nbsp; blueprints/</span>`,
       fire:   () => `<span class="t-earth">🔥 looks like this fam</span>`,
       sudo:   () => `<span class="t-muted">nice try nerd.</span>`,
@@ -903,6 +903,8 @@ function getReward() {
         <span class="t-muted">Enter a, b, c, or d:</span>`;
       },
 
+      // Well well well....what do we have here? Only the final correct answer will trigger the discount code — no spoilers you nerds
+      // Play the game you lazy hacker 
       c: () => {
         if (adventureStep !== 5) return `<span class="t-muted">command not found: c — try 'help'</span>`;
         adventureStep = 0;
